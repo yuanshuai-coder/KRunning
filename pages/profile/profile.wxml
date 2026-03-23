@@ -1,0 +1,36 @@
+<view class="auth-placeholder" wx:if="{{!hasSession}}">
+  <text class="title">登录后可同步头像昵称与跑步记录</text>
+  <button class="login-btn" type="primary" loading="{{loginLoading}}" bindtap="handleLogin">使用微信登录</button>
+</view>
+
+<view class="profile" wx:elif="{{profile}}">
+  <view class="card">
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="handleAvatar">
+      <image class="avatar" src="{{profile.avatarUrl}}" mode="aspectFill"></image>
+    </button>
+    <view class="info">
+      <input class="input" data-field="nickname" value="{{profile.nickname}}" placeholder="昵称" bindinput="handleInput" />
+      <text class="desc">点击头像可更换</text>
+    </view>
+    <button class="relogin" size="mini" bindtap="handleRelogin">同步微信</button>
+  </view>
+
+  <view class="form">
+    <view class="form-item">
+      <text class="label">学校</text>
+      <input class="input" data-field="school" value="{{profile.school}}" placeholder="填写学校" bindinput="handleInput" />
+    </view>
+    <view class="form-item">
+      <text class="label">班级</text>
+      <input class="input" data-field="className" value="{{profile.className}}" placeholder="填写班级" bindinput="handleInput" />
+    </view>
+    <view class="form-item">
+      <text class="label">语音提醒</text>
+      <switch checked="{{profile.voiceEnabled}}" bindchange="handleSwitch" />
+    </view>
+  </view>
+
+  <button class="save" type="primary" loading="{{saving}}" bindtap="handleSave">保存设置</button>
+  <button class="logout" bindtap="handleLogout">退出登录</button>
+</view>
+<view class="empty" wx:else>正在加载...</view>

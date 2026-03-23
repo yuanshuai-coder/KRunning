@@ -1,0 +1,87 @@
+<view class="home">
+  <view class="decor-bubble decor-bubble-left"></view>
+  <view class="decor-bubble decor-bubble-right"></view>
+  <view class="status-bar">
+    <text class="gps" wx:if="{{locationReady}}">GPS 良好</text>
+    <text class="gps gps-warn" wx:else>等待定位</text>
+    <view class="scope" bindtap="toggleLeaderboardScope">{{leaderboardScope === 'DAY' ? '今日排行' : '本月排行'}}</view>
+  </view>
+
+  <view class="map-card">
+    <map longitude="{{mapCenter.longitude}}" latitude="{{mapCenter.latitude}}" scale="{{mapScale}}" polylines="{{polyline}}" show-location="true"></map>
+    <view class="map-overlay">
+      <text>路线</text>
+    </view>
+  </view>
+
+  <view class="summary" wx:if="{{summary}}">
+    <view class="summary-item summary-item-today">
+      <view class="summary-top">
+        <view class="summary-icon summary-icon-sun"></view>
+        <text class="label">今日</text>
+      </view>
+      <text class="value">{{summary.todayDistanceText}}</text>
+    </view>
+    <view class="summary-item summary-item-week">
+      <view class="summary-top">
+        <view class="summary-icon summary-icon-week"></view>
+        <text class="label">本周</text>
+      </view>
+      <text class="value">{{summary.weekDistanceText}}</text>
+    </view>
+    <view class="summary-item summary-item-month">
+      <view class="summary-top">
+        <view class="summary-icon summary-icon-month"></view>
+        <text class="label">本月</text>
+      </view>
+      <text class="value">{{summary.monthDistanceText}}</text>
+    </view>
+    <view class="summary-item summary-item-streak">
+      <view class="summary-top">
+        <view class="summary-icon summary-icon-streak"></view>
+        <text class="label">坚持天数</text>
+      </view>
+      <text class="value">{{summary.activeDays}}</text>
+    </view>
+  </view>
+
+  <view class="mode-tabs">
+    <block wx:for="{{modes}}" wx:key="id">
+      <view class="mode-tab {{item.id === activeMode ? 'active' : ''}}" data-id="{{item.id}}" bindtap="changeMode">
+        <text class="mode-label">{{item.label}}</text>
+        <text class="mode-desc">{{item.desc}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="go-wrapper">
+    <button class="go-btn" type="primary" bindtap="handleGo">GO</button>
+  </view>
+
+  <view class="leaderboard-card" wx:if="{{leaderboard.length}}">
+    <view class="leaderboard-header">
+      <text>{{leaderboardScope === 'DAY' ? '今日榜' : '本月榜'}}</text>
+      <view class="more" bindtap="handleViewHistory">历史记录</view>
+    </view>
+    <block wx:for="{{leaderboard}}" wx:key="rank">
+      <view class="leaderboard-item">
+        <text class="rank">{{item.rank || index + 1}}</text>
+        <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+        <view class="info">
+          <text class="name">{{item.nickname}}</text>
+          <text class="distance">{{item.distanceText}}</text>
+        </view>
+        <text class="tag" wx:if="{{item.isSelf}}">我</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="login-overlay" wx:if="{{showLoginGuide}}">
+    <view class="login-card">
+      <text class="login-title">微信登录</text>
+      <text class="login-desc">授权后才能同步跑步轨迹、排行榜与个人资料</text>
+      <button class="login-btn" type="primary" loading="{{loginLoading}}" bindtap="handleLoginTap">立即授权登录</button>
+      <button class="login-skip" bindtap="handleCloseLoginGuide">先随便看看</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,38 @@
+<view class="run">
+  <view class="countdown" wx:if="{{state === 'countdown'}}">
+    <text class="number">{{countdown}}</text>
+    <text class="tip">准备跑步，保持动作</text>
+  </view>
+  <block wx:else>
+    <view class="metrics">
+      <view class="metric">
+        <text class="label">距离</text>
+        <text class="value">{{distanceText}}</text>
+      </view>
+      <view class="metric">
+        <text class="label">时间</text>
+        <text class="value">{{durationText}}</text>
+      </view>
+      <view class="metric">
+        <text class="label">配速</text>
+        <text class="value">{{paceText}}</text>
+      </view>
+    </view>
+
+    <view class="map-wrapper">
+      <map latitude="{{polyline.length ? polyline[0].points[polyline[0].points.length - 1].latitude : 23.134}}"
+           longitude="{{polyline.length ? polyline[0].points[polyline[0].points.length - 1].longitude : 113.322}}"
+           scale="17" polylines="{{polyline}}" enable-rotate="true" show-location="true"></map>
+      <view class="mode-chip">{{modeLabel}}{{targetDistance ? ' · 目标 ' + (targetDistance/1000) + ' km' : ''}}</view>
+    </view>
+
+    <view class="controls" wx:if="{{state === 'running'}}">
+      <button class="btn ghost" bindtap="handlePause">暂停</button>
+      <button class="btn danger" bindtap="handleFinish">结束</button>
+    </view>
+    <view class="controls" wx:elif="{{state === 'paused'}}">
+      <button class="btn primary" bindtap="handleResume">继续</button>
+      <button class="btn danger" bindtap="handleFinish">结束</button>
+    </view>
+  </block>
+</view>

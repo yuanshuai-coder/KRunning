@@ -1,0 +1,46 @@
+<view class="result" wx:if="{{summary}}">
+  <view class="hero">
+    <text class="hero-title">恭喜完成</text>
+    <text class="hero-distance">{{summary.distanceText}}</text>
+    <text class="hero-mode">{{summary.mode === 'TARGET' ? '目标跑' : (summary.mode === 'COURSE' ? '课程跑' : '自由跑')}}</text>
+  </view>
+
+  <view class="metrics">
+    <view class="metric">
+      <text class="label">用时</text>
+      <text class="value">{{summary.durationSeconds}} s</text>
+    </view>
+    <view class="metric">
+      <text class="label">配速</text>
+      <text class="value">{{summary.paceText}}</text>
+    </view>
+    <view class="metric">
+      <text class="label">开始时间</text>
+      <text class="value">{{summary.startTime}}</text>
+    </view>
+  </view>
+
+  <view class="map-card" wx:if="{{polyline.length}}">
+    <map latitude="{{polyline[0].points[0].latitude}}" longitude="{{polyline[0].points[0].longitude}}" scale="16" polylines="{{polyline}}"></map>
+  </view>
+
+  <view class="leaderboard" wx:if="{{leaderboard.length}}">
+    <view class="leaderboard-title">同学们也跑了</view>
+    <block wx:for="{{leaderboard}}" wx:key="rank">
+      <view class="leaderboard-item">
+        <text class="rank">{{item.rank || index + 1}}</text>
+        <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+        <view class="info">
+          <text class="name">{{item.nickname}}</text>
+          <text class="distance">{{item.distanceText}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="actions">
+    <button class="btn primary" bindtap="handleBackHome">继续开跑</button>
+    <button class="btn secondary" bindtap="handleViewHistory">查看历史</button>
+  </view>
+</view>
+<view class="empty" wx:else>暂无结果</view>

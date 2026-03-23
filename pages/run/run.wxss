@@ -1,0 +1,99 @@
+.run {
+  min-height: 100vh;
+  padding: 40rpx 32rpx 80rpx;
+  background: #000;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.countdown {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 180rpx;
+}
+
+.number {
+  font-size: 160rpx;
+  font-weight: 700;
+}
+
+.tip {
+  margin-top: 24rpx;
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 32rpx;
+}
+
+.metric {
+  flex: 1;
+}
+
+.metric .label {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.metric .value {
+  font-size: 48rpx;
+  font-weight: 600;
+}
+
+.map-wrapper {
+  height: 520rpx;
+  border-radius: 32rpx;
+  overflow: hidden;
+  box-shadow: 0 20rpx 40rpx rgba(0, 0, 0, 0.5);
+  margin-bottom: 32rpx;
+  position: relative;
+}
+
+.map-wrapper map {
+  width: 100%;
+  height: 100%;
+}
+
+.mode-chip {
+  position: absolute;
+  bottom: 24rpx;
+  left: 24rpx;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 12rpx 24rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+}
+
+.controls {
+  display: flex;
+  gap: 24rpx;
+}
+
+.btn {
+  flex: 1;
+  height: 100rpx;
+  border-radius: 999rpx;
+  font-size: 34rpx;
+  font-weight: 600;
+  border: none;
+}
+
+.btn.ghost {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.btn.danger {
+  background: linear-gradient(135deg, #ff5a5f, #f50c2b);
+  color: #fff;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #0f9d58, #34c47c);
+  color: #fff;
+}

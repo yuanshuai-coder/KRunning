@@ -1,0 +1,121 @@
+.profile {
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background: #ffffff;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.05);
+}
+
+.avatar-btn {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.avatar {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  border: 6rpx solid #f2f4f7;
+}
+
+.info {
+  flex: 1;
+  margin: 0 24rpx;
+}
+
+.input {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.desc {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #8e8e93;
+}
+
+.relogin {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 12rpx 32rpx;
+}
+
+.form {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 8rpx;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #f1f1f5;
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 160rpx;
+  font-size: 28rpx;
+  color: #555;
+}
+
+
+.auth-placeholder {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32rpx;
+  padding: 0 48rpx;
+  text-align: center;
+  color: #444;
+}
+
+.auth-placeholder .title {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.auth-placeholder .login-btn {
+  width: 60%;
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #0f9d58, #34c47c);
+  border: none;
+}
+
+.save {
+  background: linear-gradient(120deg, #6366f1, #a855f7);
+  border: none;
+}
+
+.logout {
+  margin-top: 16rpx;
+  border-radius: 999rpx;
+  color: #ff5f5f;
+  border: 2rpx solid #ffd5d5;
+}
+
+.empty {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8e8e93;
+}

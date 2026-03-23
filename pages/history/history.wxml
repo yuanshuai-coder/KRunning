@@ -1,0 +1,51 @@
+<view class="history">
+  <view class="login-callout" wx:if="{{!hasSession}}">
+    <text class="title">登录后查看历史记录</text>
+    <text class="desc">授权微信登录即可同步你在不同设备的跑步数据。</text>
+    <button class="go-login" size="mini" bindtap="handleGoLogin">前往登录</button>
+  </view>
+
+  <block wx:if="{{hasSession}}">
+    <view class="summary-card" wx:if="{{summary}}">
+      <view class="summary-row">
+        <view>
+          <text class="label">连续打卡</text>
+          <text class="value">{{summary.activeDays}} 天</text>
+        </view>
+        <view>
+          <text class="label">总次数</text>
+          <text class="value">{{summary.totalRuns}}</text>
+        </view>
+      </view>
+      <view class="summary-row">
+        <view>
+          <text class="label">本周累计</text>
+          <text class="value">{{summary.weekDistanceText}}</text>
+        </view>
+        <view>
+          <text class="label">本月累计</text>
+          <text class="value">{{summary.monthDistanceText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="list-title">历史记录</view>
+    <block wx:for="{{runs}}" wx:key="id">
+      <view class="run-card" data-id="{{item.id}}" bindtap="handleRunTap">
+        <view class="run-main">
+          <view class="distance">{{item.distanceText}}</view>
+          <view class="meta">
+            <text>{{item.mode === 'TARGET' ? '目标跑' : (item.mode === 'COURSE' ? '课程跑' : '自由跑')}}</text>
+            <text>{{item.paceText}}</text>
+          </view>
+        </view>
+        <view class="run-extra">
+          <text>{{item.durationSeconds}} 秒</text>
+          <text>{{item.startTime}}</text>
+        </view>
+      </view>
+    </block>
+    <view class="empty" wx:if="{{!runs.length && !loading}}">暂无记录，点击首页 GO 挑战一次</view>
+    <view class="loading" wx:if="{{loading}}">加载中...</view>
+  </block>
+</view>
