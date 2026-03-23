@@ -1,5 +1,7 @@
 // app.js
 const api = require('./services/api')
+const { setBaseUrl, setCloudConfig } = require('./utils/request')
+const apiConfig = require('./config/api-config')
 
 const DEFAULT_AVATAR = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 
@@ -13,6 +15,23 @@ function normalizeGender(value) {
   }
   return 'unknown'
 }
+
+function bootstrapNetworkConfig() {
+  if (apiConfig.baseUrl) {
+    setBaseUrl(apiConfig.baseUrl)
+  }
+  if (!apiConfig.cloud) {
+    return
+  }
+  if (apiConfig.cloud.enabled && (!apiConfig.cloud.envId || !apiConfig.cloud.serviceName)) {
+    console.warn('[config] cloud.enabled=true 但缺少 envId/serviceName，已自动回退到 HTTP 调用')
+    setCloudConfig({ enabled: false })
+    return
+  }
+  setCloudConfig(apiConfig.cloud)
+}
+
+bootstrapNetworkConfig()
 
 App({
   globalData: {

@@ -15,23 +15,30 @@ function setBaseUrl(url) {
 
 function setCloudConfig(config = {}) {
   Object.assign(cloudConfig, config)
-  if (cloudConfig.envId && wx.cloud && typeof wx.cloud.init === 'function') {
-    wx.cloud.init({ env: cloudConfig.envId })
-    cloudInitialized = true
+  cloudInitialized = false
+  if (cloudConfig.enabled) {
+    ensureCloudInit()
   }
 }
 
 function ensureCloudInit() {
-  if (!cloudConfig.enabled) {
-    return
-  }
-  if (cloudInitialized) {
+  if (!cloudConfig.enabled || cloudInitialized) {
     return
   }
   if (wx.cloud && typeof wx.cloud.init === 'function' && cloudConfig.envId) {
     wx.cloud.init({ env: cloudConfig.envId })
     cloudInitialized = true
   }
+}
+
+function canUseCloudApi() {
+  return Boolean(
+    cloudConfig.enabled &&
+    cloudConfig.envId &&
+    cloudConfig.serviceName &&
+    wx.cloud &&
+    typeof wx.cloud.callContainer === 'function'
+  )
 }
 
 function withAuthHeader(header = {}, auth = true) {
@@ -47,7 +54,7 @@ function withAuthHeader(header = {}, auth = true) {
 
 function request(options) {
   const { url, method = 'GET', data = {}, header = {}, auth = true } = options
-  if (cloudConfig.enabled && wx.cloud && typeof wx.cloud.callContainer === 'function') {
+  if (canUseCloudApi()) {
     ensureCloudInit()
     return requestViaCloud({ url, method, data, header, auth })
   }
