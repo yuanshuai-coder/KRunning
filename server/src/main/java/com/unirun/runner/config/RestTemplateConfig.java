@@ -1,10 +1,14 @@
 package com.unirun.runner.config;
 
+import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
 import org.apache.hc.client5.http.ssl.TrustAllStrategy;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
+import org.apache.hc.core5.util.Timeout;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,10 +29,17 @@ public class RestTemplateConfig {
             var sslContext = SSLContextBuilder.create()
                     .loadTrustMaterial(new TrustAllStrategy())
                     .build();
-            CloseableHttpClient httpClient = HttpClients.custom()
-                    .setSSLContext(sslContext)
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                    .build();
+                    SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+                    var registry = PoolingHttpClientConnectionManagerBuilder.create()
+                        .setSSLSocketFactory(socketFactory)
+                        .setDefaultConnectionConfig(ConnectionConfig.custom()
+                            .setConnectTimeout(Timeout.ofSeconds(10))
+                            .setSocketTimeout(Timeout.ofSeconds(20))
+                            .build())
+                        .build();
+                    CloseableHttpClient httpClient = HttpClients.custom()
+                        .setConnectionManager(registry)
+                        .build();
             return new HttpComponentsClientHttpRequestFactory(httpClient);
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to initialize WeChat SSL context", ex);

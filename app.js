@@ -1,7 +1,16 @@
 // app.js
 const api = require('./services/api')
 const { setBaseUrl, setCloudConfig } = require('./utils/request')
-const apiConfig = require('./config/api-config')
+
+let apiConfig = {
+  baseUrl: '',
+  cloud: { enabled: false }
+}
+try {
+  apiConfig = require('./config/api-config')
+} catch (err) {
+  console.warn('[config] 未找到 config/api-config.js，已使用本地默认配置', err.message)
+}
 
 const DEFAULT_AVATAR = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 
